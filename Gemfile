@@ -47,3 +47,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "rb-readline", "~> 0.5.5"
 
 gem "omniauth", "~> 1.9"
+
+gem "omniauth-google-oauth2", "~> 0.6.0"
