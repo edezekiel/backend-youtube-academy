@@ -1,6 +1,5 @@
 class Api::V1::LoginController < ApplicationController
   def login
-
     @user = User.find_or_create_by(
           :googleID => params[:googleID],
           :name => params[:name],
