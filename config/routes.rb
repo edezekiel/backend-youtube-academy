@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users, only: [:show, :index]
-      resources :outlines, only: [:show, :index, :create, :destroy]
+      resources :outlines, only: [:show, :create, :destroy]
+      post '/useroutlines', to: 'outlines#useroutlines'
       post '/login', to: 'login#login', as: 'login'
     end
   end
