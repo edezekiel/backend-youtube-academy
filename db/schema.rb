@@ -10,10 +10,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_201542) do
+ActiveRecord::Schema.define(version: 2019_02_04_133021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "notebooks", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notebooks_on_user_id"
+  end
+
+  create_table "outline_notes", force: :cascade do |t|
+    t.bigint "notebook_id"
+    t.bigint "outline_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notebook_id"], name: "index_outline_notes_on_notebook_id"
+    t.index ["outline_id"], name: "index_outline_notes_on_outline_id"
+  end
+
+  create_table "outlines", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "video"
+    t.string "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_outlines_on_user_id"
+  end
+
+  create_table "user_notebooks", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "notebook_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notebook_id"], name: "index_user_notebooks_on_notebook_id"
+    t.index ["user_id"], name: "index_user_notebooks_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -23,4 +58,10 @@ ActiveRecord::Schema.define(version: 2019_01_28_201542) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "notebooks", "users"
+  add_foreign_key "outline_notes", "notebooks"
+  add_foreign_key "outline_notes", "outlines"
+  add_foreign_key "outlines", "users"
+  add_foreign_key "user_notebooks", "notebooks"
+  add_foreign_key "user_notebooks", "users"
 end
