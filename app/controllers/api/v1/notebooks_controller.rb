@@ -12,12 +12,11 @@ class Api::V1::NotebooksController < ApplicationController
   end
 
   def create
-    @notebook = notebook.create(
+    @notebook = Notebook.create(
         :title => params[:title],
-        :outline => params[:outline],
         :user_id => User.find_by(googleID: params['googleID']).id)
     if @notebook
-      render json: { title: @notebook.title, outline: @notebook.outline, user: @notebook.user }, status: :ok
+      render json: { title: @notebook.title, user: @notebook.user }, status: :ok
     else
       render json: {errors: 'Unable to render json'},
         status: :unauthorized
