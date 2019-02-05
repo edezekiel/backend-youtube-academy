@@ -34,7 +34,8 @@ ActiveRecord::Schema.define(version: 2019_02_04_133021) do
 
   create_table "outlines", force: :cascade do |t|
     t.bigint "user_id"
-    t.string "video"
+    t.string "videoId"
+    t.string "videoTitle"
     t.string "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

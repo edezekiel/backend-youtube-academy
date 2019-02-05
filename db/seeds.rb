@@ -14,7 +14,7 @@ UserNotebook.destroy_all
 ed = User.create(name: "Edward Ezekiel", image: "https://lh4.googleusercontent.com/-u5IJtEsPS_0/AAAAAAAAAAI/AAAAAAAAEIk/OqpYh9FuTsg/s96-c/photo.jpg", googleID: "111050977327358160154")
 nb = ed.notebooks.create(title: "First Notebook")
 
-outln = ed.outlines.create(video: "93p3LxR9xfM", notes: "this video is dope")
+outln = ed.outlines.create(videoId: "93p3LxR9xfM", videoTitle: "test title", notes: "this video is dope")
 
 outnt = OutlineNote.create(outline: outln, notebook: nb)
 
