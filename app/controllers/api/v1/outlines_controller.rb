@@ -10,10 +10,11 @@ class Api::V1::OutlinesController < ApplicationController
   def create
     @outline = Outline.create(
         :notes => params[:notes],
-        :video => params[:video],
+        :videoId => params[:videoId],
+        :videoTitle => params[:videoTitle],
         :user_id => User.find_by(googleID: params['googleID']).id)
     if @outline
-      render json: { notes: @outline.notes, video: @outline.video, user: @outline.user }, status: :ok
+      render json: { notes: @outline.notes, videoId: @outline.videoId, videoTitle: @outline.videoTitle, user: @outline.user }, status: :ok
     else
       render json: {errors: 'Unable to Login In'},
         status: :unauthorized
