@@ -14,7 +14,7 @@ class Api::V1::OutlinesController < ApplicationController
         :videoTitle => params[:videoTitle],
         :user_id => User.find_by(googleID: params['googleID']).id)
     if @outline
-      render json: { notes: @outline.notes, videoId: @outline.videoId, videoTitle: @outline.videoTitle, user: @outline.user }, status: :ok
+      render json: { id: @outline.id, notes: @outline.notes, videoId: @outline.videoId, videoTitle: @outline.videoTitle, user: @outline.user }, status: :ok
     else
       render json: {errors: 'Unable to Login In'},
         status: :unauthorized
