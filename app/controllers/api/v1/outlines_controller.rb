@@ -1,10 +1,8 @@
 class Api::V1::OutlinesController < ApplicationController
-  before_action :set_outline, only: [:show, :update, :destroy]
-  before_action :set_user, only: [:useroutlines]
+  before_action :set_outline, only: [:show]
 
-  def useroutlines
-    outlines = @user.outlines
-    render json: outlines, status: 200
+  def show
+    render json: @outline.to_json(:inclue => :notebooks), status: 200
   end
 
   def create
@@ -25,7 +23,4 @@ class Api::V1::OutlinesController < ApplicationController
     @outline = Outline.find_by(id: params['id'])
   end
 
-  def set_user
-    @user = User.find_by(googleID: params['googleID'])
-  end
 end

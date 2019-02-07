@@ -1,4 +1,5 @@
 class Api::V1::OutlineNotesController < ApplicationController
+  before_action :set_notebook, only: [:create]
   before_action :set_outline, only: [:create]
 
   def create
@@ -11,6 +12,10 @@ class Api::V1::OutlineNotesController < ApplicationController
       render json: {errors: 'Unable to render json'},
         status: :unauthorized
     end
+  end
+
+  def set_notebook
+    @notebook = Notebook.find_by(id: params['notebook'])
   end
 
   def set_outline

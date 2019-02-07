@@ -1,8 +1,8 @@
 class Api::V1::NotebooksController < ApplicationController
-  before_action :set_notebook, only: [:show, :update, :destroy]
+  before_action :set_notebook, only: [:show]
 
   def show
-    render json: { notebook: @notebook, outlines: @notebook.outlines }, status: :ok
+    render json: @notebook(:include => :outlines), status: 200
   end
 
   def create
