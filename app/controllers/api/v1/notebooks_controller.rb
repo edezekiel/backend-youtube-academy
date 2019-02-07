@@ -1,11 +1,5 @@
 class Api::V1::NotebooksController < ApplicationController
   before_action :set_notebook, only: [:show, :update, :destroy]
-  before_action :set_user, only: [:usernotebooks]
-
-  def usernotebooks
-    notebooks = @user.notebooks
-    render json: notebooks, status: 200
-  end
 
   def show
     render json: { notebook: @notebook, outlines: @notebook.outlines }, status: :ok
@@ -27,7 +21,4 @@ class Api::V1::NotebooksController < ApplicationController
     @notebook = Notebook.find_by(id: params['id'])
   end
 
-  def set_user
-    @user = User.find_by(googleID: params['googleID'])
-  end
 end
