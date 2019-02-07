@@ -25,8 +25,13 @@ class Api::V1::UsersController < ApplicationController
 
   def set_user
     @user = User.find_or_create_by(
-          :googleID => params[:googleID],
+          :email => params[:email],
           :name => params[:name],
           :image=> params[:image])
+  end
+
+  private
+  def user_params
+    params.require(:email).permit(:name, :image, :access_token, :id_token)
   end
 end
