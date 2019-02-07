@@ -3,9 +3,9 @@ class Api::V1::UsersController < ApplicationController
 
   def login
     if @user
-      render json: @user.to_json(:include => { :notebooks => {
+      render json: @user.to_json(:include => [{ :notebooks => {
         :include => :outlines
-        }}), status: 200
+        }}, :outlines ]), status: 200
     else
       render json: {errors: 'Unable to Login In'},
         status: :unauthorized
