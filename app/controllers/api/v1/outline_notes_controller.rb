@@ -1,16 +1,21 @@
 class Api::V1::OutlineNotesController < ApplicationController
   before_action :set_notebook, only: [:create]
   before_action :set_outline, only: [:create]
+  before_action :set_user, only: [:create]
 
   def create
-    @outlineNote = OutlineNote.create(
-        :notebook => @notebook,
-        :outline => @outline)
-    if @outlineNote
-      render json: { outline: @outlineNote.outline, notebook: @outlineNote.notebook }, status: :ok
-    else
-      render json: {errors: 'Unable to render json'},
-        status: :unauthorized
+    if @user && @user.notebooks.include?(@notebook)
+      @outlineNote = OutlineNote.create(
+          :notebook => @notebook,
+          :outline => @outline)
+      if @outlineNote
+        render json:@user.to_json(:include => [{ :notebooks => {
+          :include => :outlines
+          }}, :outlines ]), status: :ok
+      else
+        render json: {errors: 'Unable to render json'},
+          status: :unauthorized
+      end
     end
   end
 
@@ -20,5 +25,9 @@ class Api::V1::OutlineNotesController < ApplicationController
 
   def set_outline
     @outline = Outline.find_by(id: params['outline'])
+  end
+
+  def set_user
+    @user = User.find_by(email: params['email'])
   end
 end
