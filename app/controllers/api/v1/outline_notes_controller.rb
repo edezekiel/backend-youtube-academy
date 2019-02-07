@@ -9,9 +9,7 @@ class Api::V1::OutlineNotesController < ApplicationController
           :notebook => @notebook,
           :outline => @outline)
       if @outlineNote
-        render json:@user.to_json(:include => [{ :notebooks => {
-          :include => :outlines
-          }}, :outlines ]), status: :ok
+        render json: { outlineNote: @outlineNote, outline: @outline, notebook: @notebook }, status: :ok
       else
         render json: {errors: 'Unable to render json'},
           status: :unauthorized
