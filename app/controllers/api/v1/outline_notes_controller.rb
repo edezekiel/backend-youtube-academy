@@ -9,7 +9,7 @@ class Api::V1::OutlineNotesController < ApplicationController
           :notebook => @notebook,
           :outline => @outline)
       if @outlineNote
-        render json: { outlineNote: @outlineNote, outline: @outline, notebook: @notebook }, status: :ok
+        render json: @notebook.to_json(:include => :outlines), status: :ok
       else
         render json: {errors: 'Unable to add outline to notebook'},
           status: :unauthorized
