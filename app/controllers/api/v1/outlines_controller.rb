@@ -1,6 +1,6 @@
 class Api::V1::OutlinesController < ApplicationController
   before_action :set_outline, only: [:show]
-  before_action :set_user, only: [:create]
+  before_action :validate_id_token, only: [:create]
 
   def show
     render json: @outline.to_json(:inclue => :notebooks), status: 200
@@ -15,17 +15,29 @@ class Api::V1::OutlinesController < ApplicationController
       if @outline
         render json: { id: @outline.id, notes: @outline.notes, videoId: @outline.videoId, videoTitle: @outline.videoTitle, user: @outline.user }, status: :ok
       else
-        render json: {errors: 'Unable to render JSON'},
+        render json: {errors: 'Unable to create outline'},
           status: :unauthorized
       end
     end
   end
 
   def set_outline
-    @outline = Outline.find_by(id: params['id'])
+    @outline = Outline.find_by(id: params['outline_id'])
   end
 
-  def set_user
-    @user = User.find_by(email: params['email'])
+  def validate_id_token
+    url = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=#{params["id_token"]}"
+    response = RestClient.get(url)
+    if JSON.parse(response.body)['email'] === params['email']
+      @user = User.find_by(:email => params[:email])
+    else
+      render json: {errors: 'Access denied'},
+        status: :unauthorized
+    end
+  end
+
+  private
+  def outlines_params
+    params.require(:id_token).permit(:email, :notes, :videoId, :videoTitle, :outline_id)
   end
 end

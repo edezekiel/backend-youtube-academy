@@ -13,15 +13,6 @@ class Api::V1::UsersController < ApplicationController
       }}), status: 200
   end
 
-  def index
-    users = User.all
-    render json: users
-  end
-
-  def set_user
-
-  end
-
   def validate_id_token
     url = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=#{params["id_token"]}"
     response = RestClient.get(url)
@@ -38,6 +29,6 @@ class Api::V1::UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:email).permit(:name, :image, :access_token, :id_token)
+    params.require(:id_token).permit(:email, :name, :image)
   end
 end
