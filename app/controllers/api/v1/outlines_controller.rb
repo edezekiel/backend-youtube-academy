@@ -2,9 +2,9 @@ class Api::V1::OutlinesController < ApplicationController
   before_action :set_outline, only: [:show]
   before_action :validate_id_token, only: [:create]
 
-  def show
-    render json: @outline.to_json(:inclue => :notebooks), status: 200
-  end
+  # def show
+  #   render json: @outline.to_json(:inclue => :notebooks), status: 200
+  # end
 
   def create
     if @user
@@ -13,7 +13,7 @@ class Api::V1::OutlinesController < ApplicationController
           :videoId => params[:videoId],
           :videoTitle => params[:videoTitle])
       if @outline
-        render json: { id: @outline.id, notes: @outline.notes, videoId: @outline.videoId, videoTitle: @outline.videoTitle, user: @outline.user }, status: :ok
+        render json: @outline.to_json, status: :ok
       else
         render json: {errors: 'Unable to create outline'},
           status: :unauthorized
