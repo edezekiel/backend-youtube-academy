@@ -12,7 +12,7 @@ class Api::V1::NotebooksController < ApplicationController
           :title => params[:title],
           :user_id => @user.id)
       if @notebook
-        render json: { title: @notebook.title, user: @notebook.user }, status: :ok
+        render json: @notebook.to_json(:include => :outlines), status: :ok
       else
         render json: {errors: 'Unable to create notebook'},
           status: :unauthorized
