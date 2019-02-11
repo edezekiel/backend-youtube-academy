@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :validate_id_token
+  before_action :validate_id_token, only: [:create, :login]
 
   def login
     render json: @user.to_json(:include => [{ :notebooks => {
@@ -8,9 +8,17 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
+    @user = User.find_by(:id => params["id"])
     render json: @user.to_json(:include => { :notebooks => {
       :include => :outlines
       }}), status: 200
+  end
+
+  def index
+    @users = User.all
+    render json: @users.to_json(:include => [{ :notebooks => {
+      :include => :outlines
+      }}, :outlines ]), status: 200
   end
 
   def validate_id_token
