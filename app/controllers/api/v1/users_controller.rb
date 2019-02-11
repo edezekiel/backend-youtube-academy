@@ -26,9 +26,10 @@ class Api::V1::UsersController < ApplicationController
     response = RestClient.get(url)
     if JSON.parse(response.body)['email'] === params['email']
       @user = User.find_or_create_by(
-            :email => params[:email])
-      @user.image = params[:image]
-      @user.name = params[:name]
+            :email => params[:email],
+            :image => params[:image],
+            :name => params[:name]
+          )
     else
       render json: {errors: 'Unable to Login In'},
         status: :unauthorized
